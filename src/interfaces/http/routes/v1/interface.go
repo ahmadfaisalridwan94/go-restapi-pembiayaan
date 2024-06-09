@@ -14,6 +14,7 @@ type V1Route struct {
 type IV1Route interface {
 	MountPing()
 	MountLogin()
+	MountRegister()
 }
 
 func NewV1Route(appContext *definitions.AppContext, echoGroup *echo.Group) IV1Route {

@@ -1,25 +1,27 @@
-package loginV1Controller
+package registerV1Controller
 
 import (
 	"net/http"
 	"pembiayaan/src/definitions"
 	"pembiayaan/src/helpers"
-	loginUC "pembiayaan/src/usecases/login"
+	registerUC "pembiayaan/src/usecases/register"
 
 	"github.com/labstack/echo/v4"
 	"gopkg.in/go-playground/validator.v9"
 )
 
 type (
-	reqLogin struct {
+	reqRegister struct {
+		Name     string `json:"Name" validate:"required"`
 		Email    string `json:"Email" validate:"required"`
 		Password string `json:"Password" validate:"required"`
+		Role     string `json:"Role" validate:"required"`
 	}
 )
 
-func (i *V1LoginController) Login(c echo.Context) (err error) {
+func (i *V1RegisterController) Register(c echo.Context) (err error) {
 
-	payload := reqLogin{}
+	payload := reqRegister{}
 	if err = c.Bind(&payload); err != nil {
 		return helpers.ErrorMessage("0013", err)
 	}
@@ -28,14 +30,16 @@ func (i *V1LoginController) Login(c echo.Context) (err error) {
 		return helpers.ErrorMessage("0013", err)
 	}
 
-	loginUseCase := loginUC.InitializeLoginUseCase(i.Gorm, c.Request().Context())
+	registerUseCase := registerUC.InitializeRegisterUseCase(i.Gorm, c.Request().Context())
 
-	paramLogin := loginUC.ParamLogin{
+	paramRegister := registerUC.ParamRegister{
+		Name:     payload.Name,
 		Email:    payload.Email,
 		Password: payload.Password,
+		Role:     payload.Role,
 	}
 
-	result, err := loginUseCase.Login(&paramLogin)
+	result, err := registerUseCase.Register(&paramRegister)
 	if err != nil {
 		return err
 	}
@@ -48,7 +52,7 @@ func (i *V1LoginController) Login(c echo.Context) (err error) {
 }
 
 // Validate validates the request payload using the validator library
-func (r *reqLogin) Validate() error {
+func (r *reqRegister) Validate() error {
 	validate := validator.New()
 	return validate.Struct(r)
 }

@@ -45,12 +45,12 @@ func (i *Http) Launch() {
 	})
 
 	v1 := v1routes.NewV1Route(i.AppContext, basePath.Group("/v1"))
-	// v2 := v2routes.NewV2Route(i.AppContext, basePath.Group("/v2"))
+	// // v2 := v2routes.NewV2Route(i.AppContext, basePath.Group("/v2"))
 	basePath.GET("/api-docs/*", echoSwagger.WrapHandler)
 
-	// routes
 	v1.MountPing()
 	v1.MountLogin()
+	v1.MountRegister()
 
 	// v2.MountPing()
 

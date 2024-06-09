@@ -27,25 +27,25 @@ func (i *LoginUseCase) Login(p *ParamLogin) (*ResultToken, error) {
 
 	result, err := i.LoginRepository.FindByEmailAndStatus(p.Email, 1)
 	if err != nil {
-		return nil, helpers.ErrorMessage("0105", errors.New("Wrong credentials"))
+		return nil, helpers.ErrorMessage("0105", errors.New("wrong credentials"))
 	}
 
 	//check status client
 	if result.Status == 0 {
-		return nil, helpers.ErrorMessage("0106", errors.New("Inactive Account"))
+		return nil, helpers.ErrorMessage("0106", errors.New("inactive account"))
 	}
 
 	//validate password
 	checkHash := helpers.CheckPasswordHash(p.Password, result.Password)
-	if checkHash == false {
-		return nil, helpers.ErrorMessage("0105", errors.New("Wrong credentials"))
+	if !checkHash {
+		return nil, helpers.ErrorMessage("0105", errors.New("wrong credentials"))
 	}
 
 	envExp := os.Getenv("TOKEN_EXPIRED_IN_MINUTES")
 
 	expiredToken, err := strconv.Atoi(envExp)
 	if err != nil {
-		return nil, helpers.ErrorMessage("0004", errors.New("Unauthorized"))
+		return nil, helpers.ErrorMessage("0004", errors.New("unauthorized"))
 	}
 
 	//generate api key

@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"regexp"
-	"strings"
 	"time"
 )
 
@@ -63,29 +62,28 @@ func CheckAuthSignature(a *AuthComponent) bool {
 	// fmt.Println("AUTH SIGNATURE: ")
 	// fmt.Println(a)
 
-	if a.Signature == hmacSignature {
-		return true
-	}
-
-	return false
+	return a.Signature == hmacSignature
 }
 
 func getPath(url string) string {
 	pathRegex := regexp.MustCompile(`.+?\:\/\/.+?(/.+?)(?:#|\?|$)`)
 	result := pathRegex.FindStringSubmatch(url)
-	if result != nil && len(result) > 1 {
+	// if result != nil && len(result) > 1 {
+	// 	return result[1]
+	// }
+	if len(result) > 1 {
 		return result[1]
 	}
 	return ""
 }
 
-func getQueryString(url string) string {
-	arrSplit := strings.Split(url, "?")
-	if len(arrSplit) > 1 {
-		return url[strings.Index(url, "?")+1:]
-	}
-	return ""
-}
+// func getQueryString(url string) string {
+// 	arrSplit := strings.Split(url, "?")
+// 	if len(arrSplit) > 1 {
+// 		return url[strings.Index(url, "?")+1:]
+// 	}
+// 	return ""
+// }
 
 func generateHMACSignature(data, key string) string {
 	hmacHash := hmac.New(sha256.New, []byte(key))

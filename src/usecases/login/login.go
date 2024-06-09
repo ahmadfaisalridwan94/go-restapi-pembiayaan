@@ -49,7 +49,7 @@ func (i *LoginUseCase) Login(p *ParamLogin) (*ResultToken, error) {
 	}
 
 	//generate api key
-	apiKey, _ := helpers.GenerateApiKey(p.Password)
+	//apiKey, _ := helpers.GenerateApiKey(p.Password)
 
 	paramsGenerateJWT := helpers.ParamsGenerateJWT{
 		ExpiredInMinute: expiredToken,
@@ -57,7 +57,7 @@ func (i *LoginUseCase) Login(p *ParamLogin) (*ResultToken, error) {
 		Email:           result.Email,
 		Name:            result.Name,
 		Role:            result.Role,
-		ApiKey:          apiKey,
+		//ApiKey:          apiKey,
 	}
 
 	token, exp, err := helpers.GenerateJWT(&paramsGenerateJWT)

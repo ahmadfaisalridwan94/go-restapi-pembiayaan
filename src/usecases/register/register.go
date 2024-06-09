@@ -30,7 +30,7 @@ func (i *RegisterUseCase) Register(p *ParamRegister) (*ResultToken, error) {
 	_, err := i.RegisterRepository.FindByEmail(p.Email)
 
 	if err == nil {
-		return nil, helpers.ErrorMessage("0101", errors.New("Email already exist"))
+		return nil, helpers.ErrorMessage("0101", errors.New("email already exist"))
 	}
 
 	//hash password
@@ -42,7 +42,11 @@ func (i *RegisterUseCase) Register(p *ParamRegister) (*ResultToken, error) {
 
 	//create user
 	p.Password = hashPassword
-	p.Role = p.Role
+
+	//role only admin, borrower, and lender
+	if p.Role != "admin" && p.Role != "borrower" && p.Role != "lender" {
+		p.Role = "borrower"
+	}
 
 	user := &entities.User{
 		Name:      p.Name,

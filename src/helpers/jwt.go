@@ -16,7 +16,7 @@ type (
 		Email           string
 		Name            string
 		Role            string
-		ApiKey          string
+		//ApiKey          string
 	}
 	ParamsValidateJWT struct {
 		Token     string
@@ -24,10 +24,10 @@ type (
 	}
 	Claims struct {
 		jwt.StandardClaims
-		Role   string `json:"role,omitempty"`
-		Name   string `json:"name,omitempty"`
-		Email  string `json:"email,omitempty"`
-		ApiKey string `json:"apiKey,omitempty"`
+		Role  string `json:"role,omitempty"`
+		Name  string `json:"name,omitempty"`
+		Email string `json:"email,omitempty"`
+		//ApiKey string `json:"apiKey,omitempty"`
 	}
 )
 
@@ -44,10 +44,10 @@ func GenerateJWT(p *ParamsGenerateJWT) (string, int64, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expiredAt,
 		},
-		Role:   p.Role,
-		Name:   p.Name,
-		Email:  p.Email,
-		ApiKey: p.ApiKey,
+		Role:  p.Role,
+		Name:  p.Name,
+		Email: p.Email,
+		//ApiKey: p.ApiKey,
 	}
 
 	token := jwt.NewWithClaims(
@@ -67,7 +67,7 @@ func ValidateJWT(p *ParamsValidateJWT) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(p.Token, func(token *jwt.Token) (interface{}, error) {
 		method, ok := token.Method.(*jwt.SigningMethodHMAC)
 		if !ok || method != JWT_SIGNING_METHOD {
-			return nil, errors.New("Invalid Token")
+			return nil, errors.New("invalid token")
 		}
 
 		return []byte(p.SecretKey), nil

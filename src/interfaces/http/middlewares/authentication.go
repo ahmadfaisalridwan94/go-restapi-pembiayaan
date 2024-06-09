@@ -29,7 +29,7 @@ func Authentication() echo.MiddlewareFunc {
 			secretKey := os.Getenv("ACCESS_TOKEN_SECRET_KEY")
 
 			if token == "" {
-				helpers.ErrorMessage("0103", errors.New("Invalid Token"))
+				helpers.ErrorMessage("0103", errors.New("invalid token"))
 			}
 
 			//validate jwt
@@ -57,7 +57,7 @@ func Authentication() echo.MiddlewareFunc {
 			// get client secret
 			clientSecret, err := helpers.DecryptApiKey(apiKey)
 			if err != nil {
-				return helpers.ErrorMessage("0104", errors.New("Invalid Api Key"))
+				return helpers.ErrorMessage("0104", errors.New("invalid api key"))
 			}
 
 			// check auth signature
@@ -67,12 +67,12 @@ func Authentication() echo.MiddlewareFunc {
 				AccessToken:  token,
 				ClientSecret: clientSecret,
 				RequestBody:  requestBody,
-				Signature:    c.Request().Header.Get("BRI-Signature"),
-				Timestamp:    c.Request().Header.Get("BRI-Timestamp"),
+				Signature:    c.Request().Header.Get("X-Signature"),
+				Timestamp:    c.Request().Header.Get("X-Timestamp"),
 			})
 
 			if !checkSignature {
-				return helpers.ErrorMessage("0101", errors.New("Invalid Signature"))
+				return helpers.ErrorMessage("0101", errors.New("invalid signature"))
 			}
 
 			user := make(map[string]interface{})

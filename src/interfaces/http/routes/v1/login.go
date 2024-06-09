@@ -1,11 +1,10 @@
 package v1routes
 
-import (
-	"net/http"
+import LoginV1Controller "pembiayaan/src/interfaces/http/controllers/v1/login"
 
-	"github.com/labstack/echo/v4"
-)
+func (i *V1Route) MountLogin() {
+	g := i.Echo.Group("/auth")
+	loginController := LoginV1Controller.NewV1LoginController(i.AppContext)
 
-func (r *V1Route) Login(c echo.Context) error {
-	return c.JSON(http.StatusOK, "Hello, World!")
+	g.POST("/login", loginController.Login)
 }

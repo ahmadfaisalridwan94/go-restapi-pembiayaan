@@ -48,10 +48,9 @@ func (i *Http) Launch() {
 	// v2 := v2routes.NewV2Route(i.AppContext, basePath.Group("/v2"))
 	basePath.GET("/api-docs/*", echoSwagger.WrapHandler)
 
+	// routes
 	v1.MountPing()
-	v1.MountOrders()
-	v1.MountToken()
-	v1.MountPangkalan()
+	v1.MountLogin()
 
 	// v2.MountPing()
 

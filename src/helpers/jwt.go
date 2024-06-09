@@ -13,9 +13,9 @@ type (
 	ParamsGenerateJWT struct {
 		ExpiredInMinute int
 		SecretKey       string
-		ClientID        string
-		ApplicationID   string
-		ApplicationName string
+		Email           string
+		Name            string
+		Role            string
 		ApiKey          string
 	}
 	ParamsValidateJWT struct {
@@ -24,10 +24,10 @@ type (
 	}
 	Claims struct {
 		jwt.StandardClaims
-		ClientID        string `json:"clientID,omitempty"`
-		ApplicationID   string `json:"applicationID,omitempty"`
-		ApplicationName string `json:"applicationName,omitempty"`
-		ApiKey          string `json:"apiKey,omitempty"`
+		Role   string `json:"role,omitempty"`
+		Name   string `json:"name,omitempty"`
+		Email  string `json:"email,omitempty"`
+		ApiKey string `json:"apiKey,omitempty"`
 	}
 )
 
@@ -44,10 +44,10 @@ func GenerateJWT(p *ParamsGenerateJWT) (string, int64, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expiredAt,
 		},
-		ClientID:        p.ClientID,
-		ApplicationID:   p.ApplicationID,
-		ApplicationName: p.ApplicationName,
-		ApiKey:          p.ApiKey,
+		Role:   p.Role,
+		Name:   p.Name,
+		Email:  p.Email,
+		ApiKey: p.ApiKey,
 	}
 
 	token := jwt.NewWithClaims(

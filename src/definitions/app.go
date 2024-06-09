@@ -6,7 +6,6 @@ import (
 
 type (
 	AppContext struct {
-		Gorm  *gorm.DB
-		Redis redis.Client
+		Gorm *gorm.DB
 	}
 )

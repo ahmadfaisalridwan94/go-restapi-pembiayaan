@@ -25,6 +25,7 @@ type User struct {
 	RememberToken *string    `gorm:"column:remember_token;type:varchar(100)"`
 	Image         *string    `gorm:"column:image;type:varchar(255)"`
 	Role          string     `gorm:"column:role;type:varchar(255);not null"`
+	Status        int        `gorm:"column:status;type:varchar(50);not null"`
 	CreatedAt     time.Time  `gorm:"column:created_at;type:timestamp;not null"`
 	UpdatedAt     time.Time  `gorm:"column:updated_at;type:timestamp;not null"`
 }

@@ -66,7 +66,7 @@ func (i *RegisterUseCase) Register(p *ParamRegister) (*ResultToken, error) {
 	}
 
 	//generate api key
-	apiKey, _ := helpers.GenerateApiKey(p.Password)
+	//apiKey, _ := helpers.GenerateApiKey(p.Password)
 
 	paramsGenerateJWT := helpers.ParamsGenerateJWT{
 		ExpiredInMinute: 60,
@@ -74,7 +74,7 @@ func (i *RegisterUseCase) Register(p *ParamRegister) (*ResultToken, error) {
 		Email:           p.Email,
 		Name:            p.Name,
 		Role:            p.Role,
-		ApiKey:          apiKey,
+		//ApiKey:          apiKey,
 	}
 
 	token, exp, err := helpers.GenerateJWT(&paramsGenerateJWT)
